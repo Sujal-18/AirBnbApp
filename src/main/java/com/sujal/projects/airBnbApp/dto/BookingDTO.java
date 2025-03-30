@@ -9,6 +9,7 @@ import com.sujal.projects.airBnbApp.entity.enums.BookingStatus;
 import lombok.*;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -30,5 +31,6 @@ public class BookingDTO {
     private BookingStatus bookingStatus;
 
     private Set<GuestDTO> guests;
+    private BigDecimal amount;
 
 }

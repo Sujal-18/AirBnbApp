@@ -39,6 +39,7 @@ public class WebSecurityConfig {
                         .anyRequest().permitAll()
                 );
 
+
         return httpSecurity.build();
     }
     @Bean

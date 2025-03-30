@@ -31,7 +31,7 @@ public class Booking {
     @JoinColumn(name="room_id",nullable = false)
     private Room room;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="user_id",nullable = false)
     private User user;
 
@@ -58,6 +58,8 @@ public class Booking {
     @Column(nullable = false)
     private BookingStatus bookingStatus;
 
+    @Column(unique = true)
+    private String paymentSessionId;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable( //this will create a new table which will be 1-M from BOOKING and M-1 from GUESTS so totally M-M.and we don't need to create join table again if we want all bookings in guest as already table is created.
