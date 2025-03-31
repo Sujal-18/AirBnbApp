@@ -36,6 +36,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/admin/**").hasRole("HOTEL_MANAGER")
 //                        .requestMatchers("/auth/**").anonymous()
                         .requestMatchers("/bookings/**").authenticated()
+                        .requestMatchers("/users/**").authenticated()
+                                .requestMatchers("/admin/logout").authenticated()
                         .anyRequest().permitAll()
                 );
 

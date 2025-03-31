@@ -75,4 +75,8 @@ public class AuthService {
         String accessToken = jwtService.generateAccessToken(user);
         return accessToken;
     }
+
+    public void logout() {
+        SecurityContextHolder.clearContext();
+    }
 }

@@ -1,5 +1,6 @@
 package com.sujal.projects.airBnbApp.controller;
 
+import com.sujal.projects.airBnbApp.advice.ApiResponse;
 import com.sujal.projects.airBnbApp.dto.LoginDTO;
 import com.sujal.projects.airBnbApp.dto.LoginResponseDTO;
 import com.sujal.projects.airBnbApp.dto.SignUpRequestDTO;
@@ -13,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
@@ -42,6 +40,26 @@ public class AuthController {
         response.addCookie(cookie);
         return ResponseEntity.ok(new LoginResponseDTO(tokens[0]));
     }
+
+//    @DeleteMapping("/logout")
+//    public ResponseEntity<ApiResponse<String>> logout(HttpServletRequest request, HttpServletResponse response){
+//        String refreshToken =Arrays.stream(request.getCookies())
+//                .filter(cookie -> "refreshToken".equals(cookie.getName()))
+//                .findFirst()
+//                .map(cookie -> cookie.getValue())
+//                .orElseThrow(()-> new AuthenticationServiceException("Refresh token not found inside the cookies"));
+//
+//        authService.logout();
+//        Cookie cookie = new Cookie("refreshToken","");
+//        cookie.setHttpOnly(true);
+//        cookie.setSecure(true);
+//        cookie.setPath("/");
+//        cookie.setMaxAge(0);
+//        response.addCookie(cookie);
+//        return ResponseEntity.ok(new ApiResponse<>("Logout successful"));
+//
+//    }
+
     @PostMapping(path = "/refresh")
     public ResponseEntity<LoginResponseDTO> refresh(HttpServletRequest request){
         String refreshToken = Arrays.stream(request.getCookies())

@@ -5,6 +5,8 @@ import com.sujal.projects.airBnbApp.dto.HotelInfoDTO;
 import com.sujal.projects.airBnbApp.entity.Hotel;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 public interface HotelService {
 
@@ -20,4 +22,6 @@ public interface HotelService {
     void activateHotelById(Long hotelId);
 
     HotelInfoDTO getHotelInfoById(Long hotelId);
+
+    List<HotelDTO> getAllHotels();
 }

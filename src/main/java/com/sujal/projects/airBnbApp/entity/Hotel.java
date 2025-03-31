@@ -44,7 +44,7 @@ public class Hotel {
     @Embedded
     private HotelContactInfo contactInfo;
 
-    @ManyToOne(optional = false,fetch = FetchType.LAZY) //TODO
+    @ManyToOne(optional = false) //TODO
     private User owner;
 
     @JsonIgnore

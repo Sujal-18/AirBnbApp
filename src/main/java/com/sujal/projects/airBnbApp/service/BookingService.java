@@ -2,10 +2,9 @@ package com.sujal.projects.airBnbApp.service;
 
 
 import com.stripe.model.Event;
-import com.sujal.projects.airBnbApp.dto.BookingDTO;
-import com.sujal.projects.airBnbApp.dto.BookingRequestDTO;
-import com.sujal.projects.airBnbApp.dto.GuestDTO;
+import com.sujal.projects.airBnbApp.dto.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -23,4 +22,11 @@ public interface BookingService {
     void cancelBooking(Long bookingId);
 
     String getBookingStatus(Long bookingId);
+
+
+    List<BookingDTO> getAllBookingByHotelId(Long hotelId);
+
+    HotelReportDTO getHotelReport(Long hotelId, LocalDate startDate, LocalDate endDate);
+
+    List<BookingDTO> getMyBookings();
 }

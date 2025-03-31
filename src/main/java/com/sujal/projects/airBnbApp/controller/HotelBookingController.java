@@ -1,18 +1,16 @@
 package com.sujal.projects.airBnbApp.controller;
 
-import com.sujal.projects.airBnbApp.dto.BookingDTO;
-import com.sujal.projects.airBnbApp.dto.BookingRequestDTO;
-import com.sujal.projects.airBnbApp.dto.GuestDTO;
+import com.sujal.projects.airBnbApp.dto.*;
 import com.sujal.projects.airBnbApp.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-
 @RequiredArgsConstructor
 @RequestMapping("/bookings")
 public class HotelBookingController {
@@ -44,4 +42,5 @@ public class HotelBookingController {
     public ResponseEntity<Map<String,String>> getBookingStatus(@PathVariable Long bookingId){
         return ResponseEntity.ok(Map.of("Status:",bookingService.getBookingStatus(bookingId)));
     }
+
 }

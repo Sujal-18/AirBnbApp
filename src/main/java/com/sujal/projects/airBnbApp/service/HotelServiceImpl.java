@@ -19,6 +19,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.sujal.projects.airBnbApp.util.AppUtils.getCurrentUser;
 
 @Service
 @Slf4j
@@ -49,8 +52,8 @@ public class HotelServiceImpl implements HotelService {
         Hotel hotel = hotelRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Hotel with id {} not found"+id));
 
         //Only owner of hotel can get hotel by id
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(!user.equals(hotel.getOwner().getUsername())){
+        User user = getCurrentUser();
+        if(!user.equals(hotel.getOwner())){
             throw new UnAuthorizedException("This user does not own this hotel with id: "+id);
         }
 
@@ -64,8 +67,8 @@ public class HotelServiceImpl implements HotelService {
          modelMapper.map(hotelDTO,hotel);
 
         //Only owner of hotel can get update hotel by id
-         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-         if(!user.equals(hotel.getOwner().getUsername())){
+         User user =getCurrentUser();
+         if(!user.equals(hotel.getOwner())){
              throw new UnAuthorizedException("This user does not own this hotel with id: "+id);
          }
          hotel.setId(id);
@@ -112,6 +115,16 @@ public class HotelServiceImpl implements HotelService {
                 .toList();
 
         return new HotelInfoDTO(modelMapper.map(hotel,HotelDTO.class),rooms);
+    }
+
+    @Override
+    public List<HotelDTO> getAllHotels() {
+        User user = getCurrentUser();
+        log.info("Getting all hotels for the user with ID: {}", user.getId());
+        List<Hotel> hotels = hotelRepository.findByOwner(user);
+        return hotels.stream()
+                .map(hotel -> modelMapper.map(hotel,HotelDTO.class))
+                .collect(Collectors.toList());
     }
 
 }

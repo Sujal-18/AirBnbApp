@@ -11,4 +11,6 @@ public interface RoomService {
     public RoomDTO createNewRoom(Long id, RoomDTO roomDTO);
     public List<RoomDTO> getAllRoomsInHotel(Long hotelId);
     public void deleteRoomById(Long roomId);
+
+    RoomDTO updateRoomById(Long hotelId, Long roomId, RoomDTO roomDTO);
 }

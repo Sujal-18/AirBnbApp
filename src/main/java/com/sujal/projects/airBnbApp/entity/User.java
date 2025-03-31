@@ -2,13 +2,14 @@ package com.sujal.projects.airBnbApp.entity;
 
 
 import com.sujal.projects.airBnbApp.entity.enums.Role;
+import com.sujal.projects.airBnbApp.entity.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -31,11 +32,18 @@ public class User implements UserDetails{
     @Column(nullable = false)
     private String name;
 
+    private LocalDate dateOfBirth;
+
+    @Enumerated(EnumType.STRING)
+    private Gender Gender;
+
     @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
     private String password;
+
+
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING) //not ordinal because it will assign 1 and 2 to roles and we won't recognize role by seeing the table
@@ -57,11 +65,11 @@ public class User implements UserDetails{
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(getId(), user.getId());
+        return Objects.equals(getId(), user.getId()) && Objects.equals(getName(), user.getName()) && Objects.equals(getEmail(), user.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return Objects.hash(getId(), getName(), getEmail());
     }
 }

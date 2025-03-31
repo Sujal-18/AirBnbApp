@@ -14,12 +14,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
+import static com.sujal.projects.airBnbApp.util.AppUtils.getCurrentUser;
 
 @Service
 @Slf4j
@@ -85,6 +89,28 @@ public class RoomServiceImpl implements  RoomService{
         }
         inventoryService.deleteAllInventories(room);
         roomRepository.deleteById(roomId);
+
+
+    }
+
+    @Override
+    public RoomDTO updateRoomById(Long hotelId, Long roomId, RoomDTO roomDTO) {
+        log.info("Updating the room with ID: {} of hotel with ID: {}",roomId,hotelId);
+
+        Hotel hotel = hotelRepository.findById(hotelId).orElseThrow(()-> new ResourceNotFoundException("Hotel not found with id: "+hotelId));
+
+        User user = getCurrentUser();
+        if(!user.equals(hotel.getOwner())){
+            throw new UnAuthorizedException("The user does not own this hotel with id:"+hotelId);
+        }
+
+        Room room = roomRepository.findById(roomId).orElseThrow(()-> new ResourceNotFoundException("Room not found with id: "+roomId));
+
+        Room toBeSavedRoom = modelMapper.map(roomDTO, Room.class);
+        toBeSavedRoom.setId(roomId);
+        toBeSavedRoom.setHotel(hotel);
+        toBeSavedRoom = roomRepository.save(toBeSavedRoom);
+        return modelMapper.map(toBeSavedRoom,RoomDTO.class);
 
 
     }
